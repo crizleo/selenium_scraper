@@ -58,7 +58,7 @@ def obtener_tiempos(vuelo):
     return tiempos
 
 def obtener_info(driver):
-    #cerrar ventana emergente
+    #cerrar ventanas emergente
     driver.find_element_by_xpath('//div[@class = "slidedown-footer"]/button[@class = "align-right secondary slidedown-button"]').click()
     time.sleep(0.5)
     driver.find_element_by_xpath('//div[@class = "lightbox-top"]/span[@class = "close"]').click()
@@ -87,6 +87,7 @@ def obtener_info(driver):
         #cerramos los detalles de las tarifas
         vuelo.click()
         time.sleep(0.5)
+        #guardamos los datos en una lista
         info.append({'precios':precios,
                      'tiempos':tiempos,
                      'escalas':escalas})
@@ -99,15 +100,17 @@ if __name__ == "__main__":
     link = 'https://www.latam.com/es_co/apps/personas/booking?fecha1_dia=04&fecha1_anomes=2020-11&fecha2_dia=28&fecha2_anomes=2020-11&from_city2=MEX&to_city2=BGA&auAvailability=1&ida_vuelta=ida&vuelos_origen=Bucaramanga&from_city1=BGA&vuelos_destino=Ciudad%20de%20M%C3%A9xico&to_city1=MDE&flex=1&vuelos_fecha_salida_ddmmaaaa=29/10/2020&vuelos_fecha_regreso_ddmmaaaa=28/11/2020&cabina=Y&nadults=1&nchildren=0&ninfants=0&cod_promo=&stopover_outbound_days=0&stopover_inbound_days=0&application=#/'
     #le podemos agregar opciones a nuestra busqueda
     option = webdriver.ChromeOptions()
-    #en este caso vams a abrir el navegador en modo incognito
-    option.add_argument('--incognito')
+    #en este caso vamos a abrir el navegador en modo incognito
     #option.add_argument('--headless')
+    option.add_argument('--incognito')
+    option.addArguments("start-maximized")
     option.add_argument('--disable-dev-shm-usage')
     #instanciar el driver del navegador
     driver = webdriver.Chrome(executable_path='C:/chrome_driver/chromedriver', options=option)
 
     #hacer que el navegador carge la pagina
     driver.get(link)
+    #le damos tiempo para que cargue toda la pagina
     time.sleep(70)
     pp = pprint.PrettyPrinter()
     info = obtener_info(driver)
